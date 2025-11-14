@@ -48,5 +48,39 @@ public class FileUtils {
             Logger.error("Erro ao escrever no arquivo: " + e.getMessage());
         }
     }
+    public static void writeText(Path filePath, String content) {
+        try {
+            Files.writeString(filePath, content);
+            Logger.success("Conteúdo escrito no arquivo com sucesso: " + filePath);
+        } catch (IOException e) {
+            Logger.error("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+    }
+
+    public static void mkdir(String dirPath) {
+        try {
+            Path path = Path.of(dirPath);
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+                Logger.success("Diretório criado com sucesso: " + dirPath);
+            } else {
+                Logger.info("Diretório já existe: " + dirPath);
+            }
+        } catch (IOException e) {
+            Logger.error("Erro ao criar diretório: " + e.getMessage());
+        }
+    }
+    public static void mkdir(Path dirPath) {
+        try {
+            if (!Files.exists(dirPath)) {
+                Files.createDirectories(dirPath);
+                Logger.success("Diretório criado com sucesso: " + dirPath);
+            } else {
+                Logger.info("Diretório já existe: " + dirPath);
+            }
+        } catch (IOException e) {
+            Logger.error("Erro ao criar diretório: " + e.getMessage());
+        }
+    }
 
 }
