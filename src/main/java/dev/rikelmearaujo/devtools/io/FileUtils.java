@@ -25,6 +25,20 @@ public class FileUtils {
             return null;
         }
     }
+    public static String readText (Path filePath) {
+        try {
+            if (!Files.exists(filePath)) {
+                Logger.error("Arquivo não encontrado: " + filePath);
+                return null;
+            }
+            String content = Files.readString(filePath);
+            Logger.success("Arquivo de texto lido com sucesso: " + filePath);
+            return content;
+        } catch (IOException e) {
+            Logger.error("Erro ao ler arquivo de texto: " + e.getMessage());
+            return null;
+        }
+    }
 
     public static void writeText(String filePath, String content) {
         try {
