@@ -1,4 +1,4 @@
-package dev.rikelmearaujo.devtools.core;
+package dev.rikelmearaujo.devtools.utils;
 
 public class Logger {
 

@@ -6,29 +6,29 @@ import java.util.List;
 public class Node<T, U> {
     private U type;
     private T value;
-    private List<Node<T, U>> childrens;
+    private List<Node<T, U>> children;
 
-    public Node(U type, T value, List<Node<T, U>> childrens) {
+    public Node(U type, T value, List<Node<T, U>> children) {
         this.type = type;
         this.value = value;
-        this.childrens = childrens;
+        this.children = children;
     }
     public Node(U type, T value) {
         this.type = type;
         this.value = value;
-        this.childrens = new ArrayList<>();
+        this.children = new ArrayList<>();
     }
 
     public void add(Node<T, U> node) {
-        this.childrens.add(node);
+        this.children.add(node);
     }
 
     public void remove(Node<T, U> node) {
-        this.childrens.remove(node);
+        this.children.remove(node);
     }
 
     public Node<T, U> getChild(int index) {
-        return this.childrens.get(index);
+        return this.children.get(index);
     }
 
     public void setValue(T value) {
@@ -40,16 +40,16 @@ public class Node<T, U> {
     }
 
     public List<Node<T, U>> getChildrens() {
-        return childrens;
+        return children;
     }
 
     @Override
     public String toString() {
-        String childrenStr = childrens.stream()
+        String childrenStr = children.stream()
                 .map(Node::toString)
                 .collect(java.util.stream.Collectors.joining(", "));
 
-        return "{ type: " + type + ", value: " + value + ", childrens: [" + childrenStr + "] }";
+        return "{ type: " + type + ", value: " + value + ", children: [" + childrenStr + "] }";
     }
 
 }
