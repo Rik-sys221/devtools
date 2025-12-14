@@ -62,83 +62,27 @@ public class FileUtils {
         }
     }
 
-    // new: generate a Java class file under srcRoot following package structure.
-    // - srcRoot: root directory where package folders should be created (e.g. "src/main/java")
-    // - packageName: full package (can be null/empty)
-    // - className: simple class name (no .java)
-    // - fields: map of fieldName -> type (e.g. "id" -> "Long")
-    // - methods: map of method signature -> body (signature must include modifiers and return type,
-    //            e.g. "public void doSomething(String s)"; body can be multiple lines)
-    public static void generateJavaClass(String srcRoot, String packageName, String className, Map<String,String> fields, Map<String,String> methods) {
-        generateJavaClass(Path.of(srcRoot), packageName, className, fields, methods);
+    public static File createFile(String filePath) {
+        return createFile(Path.of(filePath));
     }
-
-    public static void generateJavaClass(Path srcRootPath, String packageName, String className, Map<String,String> fields, Map<String,String> methods) {
+    public static File createFile(Path filePath) {
+        File res = null;
         try {
-            String packagePath = (packageName == null || packageName.isBlank()) ? "" : packageName.replace('.', File.separatorChar);
-            Path dir = packagePath.isEmpty() ? srcRootPath : srcRootPath.resolve(packagePath);
-            if (!Files.exists(dir)) {
-                mkdir(dir);
-                Logger.success("Diretório do pacote criado: " + dir.toString());
+            if (!Files.exists(filePath.getParent())) {
+                mkdir(filePath.getParent());
+                Logger.success("Diretório do pacote criado: " + filePath.getParent().toString());
             }
-
-            Path file = dir.resolve(className + ".java");
-
-            StringBuilder sb = new StringBuilder();
-            if (packageName != null && !packageName.isBlank()) {
-                sb.append("package ").append(packageName).append(";\n\n");
+            if (!Files.exists(filePath)) {
+                res = Files.createFile(filePath).toFile();
+                Logger.success("Arquivo criado com sucesso: " + filePath);
+            } else {
+                res = filePath.toFile();
+                Logger.info("Arquivo já existe: " + filePath);
             }
-            
-            sb.append("import java.util.*;\n\n");
-            sb.append("//Auto-generated class\n");
-
-            sb.append("public class ").append(className).append(" {\n\n");
-
-            if (fields != null && !fields.isEmpty()) {
-                for (Map.Entry<String,String> e : fields.entrySet()) {
-                    String name = e.getKey();
-                    String type = e.getValue();
-                    sb.append("    private ").append(type).append(" ").append(name).append(";\n");
-                }
-                sb.append("\n");
-                // simple getters and setters
-                for (Map.Entry<String,String> e : fields.entrySet()) {
-                    String name = e.getKey();
-                    String type = e.getValue();
-                    String cap = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-                    sb.append("    public ").append(type).append(" get").append(cap).append("() {\n");
-                    sb.append("        return this.").append(name).append(";\n");
-                    sb.append("    }\n\n");
-                    sb.append("    public void set").append(cap).append("(").append(type).append(" ").append(name).append(") {\n");
-                    sb.append("        this.").append(name).append(" = ").append(name).append(";\n");
-                    sb.append("    }\n\n");
-                }
-            }
-
-            if (methods != null && !methods.isEmpty()) {
-                for (Map.Entry<String,String> m : methods.entrySet()) {
-                    String signature = m.getKey();
-                    String body = m.getValue() == null ? "" : m.getValue();
-                    sb.append("    ").append(signature).append(" {\n");
-                    if (!body.isBlank()) {
-                        String[] lines = body.split("\\r?\\n");
-                        for (String line : lines) {
-                            sb.append("        ").append(line).append("\n");
-                        }
-                    }
-                    sb.append("    }\n\n");
-                }
-            }
-
-            sb.append("}\n");
-
-            Files.writeString(file, sb.toString());
-            Logger.success("Classe Java criada com sucesso: " + file.toString());
         } catch (IOException e) {
-            Logger.error("Erro ao gerar classe Java: " + e.getMessage());
-        } catch (Exception e) {
-            Logger.error("Erro inesperado ao gerar classe Java: " + e.getMessage());
+            Logger.error("Erro ao criar arquivo: " + e.getMessage());
         }
+        return res;
     }
 
 }

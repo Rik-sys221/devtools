@@ -4,6 +4,8 @@ public class Logger {
 
     private Logger() {}
 
+    public static boolean debug = false; // so you can just Logger.debug = true; to enable debug logs
+
     static final String COLOR_ANSI_RESET = "\u001B[0m";
     static final String COLOR_ANSI_RED = "\u001B[31m";
     static final String COLOR_ANSI_GREEN = "\u001B[32m";
@@ -28,6 +30,7 @@ public class Logger {
     }
 
     public static void debug(String message) {
+        if(!debug) return;
         System.out.println(COLOR_ANSI_BLUE + "[DEBUG] " + message + COLOR_ANSI_RESET);
     }
 
