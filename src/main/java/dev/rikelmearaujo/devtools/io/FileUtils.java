@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
 
 import dev.rikelmearaujo.devtools.utils.Logger;
 
@@ -12,37 +11,37 @@ public class FileUtils {
     
     private FileUtils() {}
 
-    public static String readText (String filePath) {
-        return readText(Path.of(filePath));
+    public static String readString (String filePath) {
+        return readString(Path.of(filePath));
     }
-    public static String readText (Path filePath) {
+    public static String readString (Path filePath) {
         try {
             if (!Files.exists(filePath)) {
-                Logger.error("Arquivo não encontrado: " + filePath);
+                Logger.error("File not found: " + filePath);
                 return null;
             }
             String content = Files.readString(filePath);
-            Logger.success("Arquivo de texto lido com sucesso: " + filePath);
+            Logger.success("File read successfully: " + filePath);
             return content;
         } catch (IOException e) {
-            Logger.error("Erro ao ler arquivo de texto: " + e.getMessage());
+            Logger.error("Error reading file: " + e.getMessage());
             return null;
         }
     }
 
-    public static void writeText(String filePath, String content) {
-        writeText(Path.of(filePath), content);
+    public static void writeString(String filePath, String content) {
+        writeString(Path.of(filePath), content);
     }
-    public static void writeText(Path filePath, String content) {
+    public static void writeString(Path filePath, String content) {
         try {
             if (!Files.exists(filePath.getParent())) {
                 mkdir(filePath.getParent());
-                Logger.success("Diretório do pacote criado: " + filePath.getParent().toString());
+                Logger.success("Parent directory created: " + filePath.getParent().toString());
             }
             Files.writeString(filePath, content);
-            Logger.success("Conteúdo escrito no arquivo com sucesso: " + filePath);
+            Logger.success("Content written to file successfully: " + filePath);
         } catch (IOException e) {
-            Logger.error("Erro ao escrever no arquivo: " + e.getMessage());
+            Logger.error("Error writing to file: " + e.getMessage());
         }
     }
 
@@ -53,34 +52,34 @@ public class FileUtils {
         try {
             if (!Files.exists(dirPath)) {
                 Files.createDirectories(dirPath);
-                Logger.success("Diretório criado com sucesso: " + dirPath);
+                Logger.success("Directory created successfully: " + dirPath);
             } else {
-                Logger.info("Diretório já existe: " + dirPath);
+                Logger.info("Directory already exists: " + dirPath);
             }
         } catch (IOException e) {
-            Logger.error("Erro ao criar diretório: " + e.getMessage());
+            Logger.error("Error creating directory: " + e.getMessage());
         }
     }
 
-    public static File createFile(String filePath) {
-        return createFile(Path.of(filePath));
+    public static File mkFile(String filePath) {
+        return mkFile(Path.of(filePath));
     }
-    public static File createFile(Path filePath) {
+    public static File mkFile(Path filePath) {
         File res = null;
         try {
             if (!Files.exists(filePath.getParent())) {
                 mkdir(filePath.getParent());
-                Logger.success("Diretório do pacote criado: " + filePath.getParent().toString());
+                Logger.success("Parent directory created: " + filePath.getParent().toString());
             }
             if (!Files.exists(filePath)) {
                 res = Files.createFile(filePath).toFile();
-                Logger.success("Arquivo criado com sucesso: " + filePath);
+                Logger.success("File created successfully: " + filePath);
             } else {
                 res = filePath.toFile();
-                Logger.info("Arquivo já existe: " + filePath);
+                Logger.info("File already exists: " + filePath);
             }
         } catch (IOException e) {
-            Logger.error("Erro ao criar arquivo: " + e.getMessage());
+            Logger.error("Error creating file: " + e.getMessage());
         }
         return res;
     }
