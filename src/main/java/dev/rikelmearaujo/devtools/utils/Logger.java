@@ -13,25 +13,25 @@ public class Logger {
     static final String COLOR_ANSI_BLUE = "\u001B[34m";
     static final String COLOR_ANSI_CYAN = "\u001B[36m";
 
-    public static void info(String message) {
-        System.out.println(COLOR_ANSI_CYAN + "[INFO] " + message + COLOR_ANSI_RESET);
+    public static void info(Object message) {
+        System.out.println(COLOR_ANSI_CYAN + "[INFO] " + message.toString() + COLOR_ANSI_RESET);
     }
 
-    public static void warn(String message) {
-        System.out.println(COLOR_ANSI_YELLOW + "[WARN] " + message + COLOR_ANSI_RESET);
+    public static void warn(Object message) {
+        System.out.println(COLOR_ANSI_YELLOW + "[WARN] " + message.toString() + COLOR_ANSI_RESET);
     }
 
-    public static void error(String message) {
-        System.out.println(COLOR_ANSI_RED + "[ERROR] " + message + COLOR_ANSI_RESET);
+    public static void error(Object message) {
+        System.out.println(COLOR_ANSI_RED + "[ERROR] " + message.toString() + COLOR_ANSI_RESET);
     }
 
-    public static void success(String message) {
-        System.out.println(COLOR_ANSI_GREEN + "[SUCCESS] " + message + COLOR_ANSI_RESET);
+    public static void success(Object message) {
+        System.out.println(COLOR_ANSI_GREEN + "[SUCCESS] " + message.toString() + COLOR_ANSI_RESET);
     }
 
-    public static void debug(String message) {
+    public static void debug(Object message) {
         if(!debug) return;
-        System.out.println(COLOR_ANSI_BLUE + "[DEBUG] " + message + COLOR_ANSI_RESET);
+        System.out.println(COLOR_ANSI_BLUE + "[DEBUG] " + message.toString() + COLOR_ANSI_RESET);
     }
 
 }
