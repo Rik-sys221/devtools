@@ -5,17 +5,14 @@
 
     <groupId>dev.rikelmearaujo</groupId>
     <artifactId>devtools</artifactId>
-    <version>2.0.5</version>
+    <version>2.0.6</version>
     <packaging>jar</packaging>
     <name>devtools</name>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
     </properties>
-
-    <dependencies>
-    </dependencies>
 
     <distributionManagement>
         <repository>

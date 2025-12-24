@@ -29,10 +29,10 @@ public class FileUtils {
         }
     }
 
-    public static void writeString(String filePath, String content) {
-        writeString(Path.of(filePath), content);
+    public static int writeString(String filePath, String content) {
+        return writeString(Path.of(filePath), content);
     }
-    public static void writeString(Path filePath, String content) {
+    public static int writeString(Path filePath, String content) {
         try {
             if (!Files.exists(filePath.getParent())) {
                 mkdir(filePath.getParent());
@@ -40,24 +40,29 @@ public class FileUtils {
             }
             Files.writeString(filePath, content);
             Logger.success("Content written to file successfully: " + filePath);
+            return 0;
         } catch (IOException e) {
             Logger.error("Error writing to file: " + e.getMessage());
+            return -1;
         }
     }
 
-    public static void mkdir(String dirPath) {
-        mkdir(Path.of(dirPath));
+    public static int mkdir(String dirPath) {
+        return mkdir(Path.of(dirPath));
     }
-    public static void mkdir(Path dirPath) {
+    public static int mkdir(Path dirPath) {
         try {
             if (!Files.exists(dirPath)) {
                 Files.createDirectories(dirPath);
                 Logger.success("Directory created successfully: " + dirPath);
+                return 0;
             } else {
                 Logger.info("Directory already exists: " + dirPath);
+                return 1;
             }
         } catch (IOException e) {
             Logger.error("Error creating directory: " + e.getMessage());
+            return -1;
         }
     }
 

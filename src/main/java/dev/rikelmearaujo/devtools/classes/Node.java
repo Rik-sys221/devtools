@@ -7,13 +7,13 @@ public class Node<T, U> {
     T type;
     U value;
     Node<T, U> next;
-    List<Node<T, U>> childrens;
+    List<Node<T, U>> children;
 
     public Node(T type, U value) {
         this.type = type;
         this.value = value;
         this.next = null;
-        this.childrens = new ArrayList<>();
+        this.children = new ArrayList<>();
     }
 
     public U getValue() {   
@@ -28,24 +28,24 @@ public class Node<T, U> {
     public void setNext(Node<T, U> next) {
         this.next = next;
     }
-    public List<Node<T, U>> getChildrens() {
-        return childrens;
+    public List<Node<T, U>> getChildren() {
+        return children;
     }
-    public void setChildrens(List<Node<T, U>> childrens) {
-        this.childrens = childrens;
+    public void setChildren(List<Node<T, U>> children) {
+        this.children = children;
     }
     public void addChildren(Node<T, U> child) {
-        this.childrens.add(child);
+        this.children.add(child);
     }
     public void removeChildren(Node<T, U> child) {
-        this.childrens.remove(child);
+        this.children.remove(child);
     }
-    public int getChildrensSize() {
-        if (this.hasChildrens()) return 0;
-        return this.childrens.size();
+    public int getChildrenSize() {
+        if (this.hasChildren()) return 0;
+        return this.children.size();
     }
-    public boolean hasChildrens() {
-        return this.childrens != null && !this.childrens.isEmpty();
+    public boolean hasChildren() {
+        return this.children != null && !this.children.isEmpty();
     }
     public boolean hasNext() {
         return this.next != null;
@@ -53,10 +53,10 @@ public class Node<T, U> {
     public void clear() {
         this.value = null;
         this.next = null;
-        if (this.hasChildrens()) {
-            this.childrens.clear();
+        if (this.hasChildren()) {
+            this.children.clear();
         }
-        this.childrens = null;
+        this.children = null;
     }
     public Node<T, U> last() {
         Node<T, U> current = this;
@@ -69,7 +69,7 @@ public class Node<T, U> {
         if (depth <= 0) {
             return null;
         }
-        for(Node<T, U> child : this.childrens) {
+        for(Node<T, U> child : this.children) {
             if (child.type.equals(type)) {
                 return child;
             }
@@ -84,7 +84,7 @@ public class Node<T, U> {
         if (depth <= 0) {
             return null;
         }
-        for(Node<T, U> child : this.childrens) {
+        for(Node<T, U> child : this.children) {
             if (child.value.equals(value)) {
                 return child;
             }
@@ -95,6 +95,25 @@ public class Node<T, U> {
         }
         return null;
     }
+    public Node<T, U> at (int index) {
+        if (index <= 0) {
+            return this;
+        } 
+        if (hasNext()) {
+            return next.at(index-1);
+        }
+        return null;
+    }
+    public int append(int index, Node<T, U> node) {
+        Node<T, U> prev = this.at(index);
+        if (prev == null) {
+            return -1;
+        }
+        Node<T, U> next = prev.getNext();
+        node.setNext(next);
+        prev.setNext(node);
+        return 0;
+    }
 
     public String toString(String ident) {
         StringBuilder sb = new StringBuilder();
@@ -104,9 +123,9 @@ public class Node<T, U> {
             sb.append(",\n").append(ident).append(" next=\n");
             sb.append(this.next.toString(ident + "  "));
         }
-        if (this.hasChildrens()) {
-            sb.append(",\n").append(ident).append(" childrens=[\n");
-            for (Node<T, U> child : this.childrens) {
+        if (this.hasChildren()) {
+            sb.append(",\n").append(ident).append(" children=[\n");
+            for (Node<T, U> child : this.children) {
                 sb.append(child.toString(ident + "  ")).append(",\n");
             }
             sb.append(ident).append("]");
